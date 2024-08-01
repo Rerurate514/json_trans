@@ -20,7 +20,6 @@ def translate_json_keys(file_path):
             translated_data[translated_key] = translated_value
         else:
             translated_data[key] = value
-        print(translated_data)
     
     return translated_data
 
