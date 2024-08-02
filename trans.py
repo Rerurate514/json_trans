@@ -4,9 +4,29 @@ from googletrans import Translator
 # 翻訳器のインスタンスを作成
 translator = Translator()
 
+import re
+
+def validate_input(input_string):
+    pattern = r'^[0-9a-zA-Z\s\%\$\s]+$'
+    match = re.match(pattern, input_string)
+    
+    if match is None:
+        return False  # 変換処理を終了
+
+    # 入力が有効な場合の処理
+    return True  # 正常終了
+
 def translate_text(text):
-    translated = translator.translate(text, src='en', dest='ja')
-    return translated.text
+    if type(text) is not str or type(text) is None or not validate_input(text):
+        return text
+
+    try:
+        translated = translator.translate(text, src='en', dest='ja')
+        return translated.text
+    except:
+        return text
+
+    return text
 
 def translate_json_keys(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -17,9 +37,9 @@ def translate_json_keys(file_path):
         if isinstance(value, dict):
             translated_data[key] = translate_json_keys(value)
         elif isinstance(value, str):
-            translated_key = f"{value}"  # 新しいキー名を生成
             translated_value = translate_text(value)  # 値を翻訳
-            translated_data[translated_key] = translated_value
+            translated_data[key] = translated_value
+            print(translated_data[key])
         else:
             translated_data[key] = value
     
