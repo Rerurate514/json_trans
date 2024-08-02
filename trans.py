@@ -1,10 +1,12 @@
 import json
-from translate import Translator
+from googletrans import Translator
+
+# 翻訳器のインスタンスを作成
+translator = Translator()
 
 def translate_text(text):
-    translator = Translator(from_lang = "en", to_lang = "ja")
-    result = translator.translate(text)
-    return result
+    translated = translator.translate(text, src='en', dest='ja')
+    return translated.text
 
 def translate_json_keys(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
