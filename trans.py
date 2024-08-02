@@ -7,7 +7,7 @@ translator = Translator()
 import re
 
 def validate_input(input_string):
-    pattern = r'^[0-9a-zA-Z\s\%\$\s]+$'
+    pattern = r'^[0-9a-zA-Z\s\%\$\(\)\,\_\:\;\s]+$'
     match = re.match(pattern, input_string)
     
     if match is None:
@@ -17,7 +17,7 @@ def validate_input(input_string):
     return True  # 正常終了
 
 def translate_text(text):
-    if type(text) is not str or type(text) is None or not validate_input(text):
+    if type(text) is not str or not validate_input(text):
         return text
 
     try:
@@ -46,9 +46,9 @@ def translate_json_keys(file_path):
     return translated_data
 
 # JSONファイルのパスを指定
-file_path = 'en.json'
+file_path = 'ja_jp_trans.json'
 translated_data = translate_json_keys(file_path)
 
 # 翻訳後のデータをJSON形式で出力
-with open('ja_jp.json', 'w', encoding='utf-8') as file:
+with open('ja_jp_trans.json', 'w', encoding='utf-8') as file:
     json.dump(translated_data, file, ensure_ascii=False, indent=4)
