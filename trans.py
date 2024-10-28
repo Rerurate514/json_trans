@@ -1,7 +1,6 @@
 import json
 from googletrans import Translator
 
-# 翻訳器のインスタンスを作成
 translator = Translator()
 
 import re
@@ -11,10 +10,8 @@ def validate_input(input_string):
     match = re.match(pattern, input_string)
     
     if match is None:
-        return False  # 変換処理を終了
-
-    # 入力が有効な場合の処理
-    return True  # 正常終了
+        return False
+    return True
 
 def translate_text(text):
     if type(text) is not str or not validate_input(text):
@@ -37,7 +34,7 @@ def translate_json_keys(file_path):
         if isinstance(value, dict):
             translated_data[key] = translate_json_keys(value)
         elif isinstance(value, str):
-            translated_value = translate_text(value)  # 値を翻訳
+            translated_value = translate_text(value) 
             translated_data[key] = translated_value
             print(translated_data[key])
         else:
@@ -45,10 +42,8 @@ def translate_json_keys(file_path):
     
     return translated_data
 
-# JSONファイルのパスを指定
 file_path = 'ja_jp_trans.json'
 translated_data = translate_json_keys(file_path)
 
-# 翻訳後のデータをJSON形式で出力
 with open('ja_jp_trans.json', 'w', encoding='utf-8') as file:
     json.dump(translated_data, file, ensure_ascii=False, indent=4)
